@@ -6,12 +6,15 @@
   <title>Add Child</title>
 
   <link rel="stylesheet" href="{% static 'styles/children_add.css' %}">
-
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
   <div class="card">
     <h1>Add Child</h1>
+
+    <p>
+      <a href="{% url 'children-list-page' %}" class="link-list">View All Children</a>
+    </p>
 
     <form id="child-form">
       <label>Name
@@ -43,12 +46,6 @@
     const errorEl = document.getElementById('error');
     const outputEl = document.getElementById('output');
 
-    function formatDate(iso) {
-      if (!iso) return "—";
-      const d = new Date(iso);
-      return d.toLocaleDateString(undefined, {year:'numeric', month:'short', day:'numeric'});
-    }
-
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const f = new FormData(e.target);
@@ -77,14 +74,11 @@
         );
 
         errorEl.textContent = '';
-        const child = res.data;
-
         outputEl.innerHTML = `
           <div class="success">
             <h4>Child Added Successfully</h4>
           </div>
         `;
-
         e.target.reset();
       } catch (err) {
         errorEl.textContent = `Error: ${err.response?.status || 'Network'} ${err.message || ''}`;

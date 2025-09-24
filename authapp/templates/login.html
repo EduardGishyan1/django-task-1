@@ -2,13 +2,10 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>User Login</title>
-
-  <!-- Link to external stylesheet -->
   <link rel="stylesheet" href="{% static 'styles/login.css' %}">
-
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
@@ -68,10 +65,13 @@
           }
         );
 
-        out.textContent = "success";
+        out.textContent = 'success';
         if (res.data.access) {
           localStorage.setItem('access', res.data.access);
-          if (res.data.refresh) localStorage.setItem('refresh', res.data.refresh);
+          if (res.data.refresh) {
+            localStorage.setItem('refresh', res.data.refresh);
+          }
+          window.location.href = "{% url 'children-list-page' %}";
         }
       } catch (e) {
         const status = e.response?.status || 'Network';

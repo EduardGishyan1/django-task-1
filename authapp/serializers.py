@@ -13,7 +13,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         required=True,
         validators=[UniqueValidator(queryset=User.objects.all(), lookup="iexact")],
     )
-    password = serializers.CharField(write_only=True, min_length=8, trim_whitespace=False)
+    password = serializers.CharField(write_only=True, min_length=0, trim_whitespace=False)
 
     class Meta:
         model = User

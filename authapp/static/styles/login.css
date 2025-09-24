@@ -1,7 +1,3 @@
-/* ==========================
-   Login Page Styles
-   ========================== */
-
 :root {
   --bg: #f4f6fa;
   --card-bg: #ffffff;
@@ -44,7 +40,6 @@ h1 {
   color: var(--primary);
 }
 
-/* Card container */
 form {
   width: 100%;
   max-width: 400px;
@@ -55,7 +50,6 @@ form {
   box-shadow: var(--shadow-md);
 }
 
-/* Labels & Inputs */
 label {
   display: block;
   margin: 18px 0 6px;
@@ -83,7 +77,6 @@ input:focus-visible {
   box-shadow: 0 0 0 3px rgba(74, 103, 209, 0.25);
 }
 
-/* Submit button */
 button[type="submit"] {
   width: 100%;
   margin-top: 22px;
@@ -109,7 +102,6 @@ button[type="submit"]:active {
   transform: translateY(0);
 }
 
-/* Error + output display */
 .error {
   color: var(--danger);
   margin-top: 14px;
@@ -130,7 +122,6 @@ button[type="submit"]:active {
   box-shadow: var(--shadow-sm);
 }
 
-/* Small screen tweaks */
 @media (max-width: 500px) {
   body { padding: 20px; }
   form { padding: 24px 20px; }

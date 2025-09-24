@@ -6,8 +6,8 @@ from .views import (
 )
 
 urlpatterns = [
-    path("children/list-page", ChildrenListPageView.as_view(), name="children-list-page"),
-    path("children/add-page",  ChildrenAddPageView.as_view(),  name="children-add-page"),
+    path("list-page", ChildrenListPageView.as_view(), name="children-list-page"),
+    path("add-page",  ChildrenAddPageView.as_view(),  name="children-add-page"),
 
-    path("children", ChildProfileListCreateView.as_view(), name="children-list-create"),
+    path("", ChildProfileListCreateView.as_view(), name="children-list-create"),
 ]

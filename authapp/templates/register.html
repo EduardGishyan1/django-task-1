@@ -1,0 +1,100 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>User Registration</title>
+
+  <!-- External stylesheet -->
+  <link rel="stylesheet" href="{% static 'styles/register.css' %}">
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <main class="center">
+    <section class="card">
+      <h1 class="title">Create an Account</h1>
+
+      <form id="register-form" method="post">
+        {% csrf_token %}
+        <label class="field">
+          <span class="label">Username</span>
+          <input name="username" placeholder="Choose a username" required autocomplete="username">
+        </label>
+
+        <label class="field">
+          <span class="label">Email (optional)</span>
+          <input type="email" name="email" placeholder="you@example.com" autocomplete="email">
+        </label>
+
+        <label class="field">
+          <span class="label">Password</span>
+          <input type="password" name="password" placeholder="••••••••" required autocomplete="new-password">
+        </label>
+
+        <label class="field">
+          <span class="label">Confirm Password</span>
+          <input type="password" name="password2" placeholder="Repeat password" required autocomplete="new-password">
+        </label>
+
+        <button type="submit" class="btn">Register</button>
+        <div id="error" class="error" role="alert"></div>
+      </form>
+
+      <pre id="output" class="output" aria-live="polite"></pre>
+    </section>
+  </main>
+
+  <script>
+    function getCookie(name) {
+      const m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+      return m ? decodeURIComponent(m.pop()) : null;
+    }
+
+    axios.defaults.xsrfCookieName = 'csrftoken';
+    axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+
+    const out = document.getElementById('output');
+    const err = document.getElementById('error');
+
+    document.getElementById('register-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      err.textContent = '';
+      out.textContent = 'Submitting…';
+
+      const data = Object.fromEntries(new FormData(e.target));
+      if (data.password !== data.password2) {
+        err.textContent = 'Passwords do not match';
+        out.textContent = '';
+        return;
+      }
+
+      try {
+        const res = await axios.post(
+          "{% url 'auth-register' %}",
+          {
+            username: data.username,
+            email: data.email || undefined,
+            password: data.password,
+            password2: data.password2
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCookie('csrftoken'),
+            },
+            withCredentials: true,
+          }
+        );
+
+        out.textContent = JSON.stringify(res.data, null, 2);
+      } catch (e) {
+        const status = e.response?.status || 'Network';
+        err.textContent = `Error ${status}`;
+        out.textContent = JSON.stringify(e.response?.data ?? { message: 'Network error' }, null, 2);
+      }
+    });
+  </script>
+</body>
+</html>
